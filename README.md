@@ -12,3 +12,11 @@ Ini adalah *connection string* (URI) yang digunakan untuk terhubung ke *message 
 - Kata **`guest`** yang kedua adalah **password** bawaan yang terhubung dengan *username* tersebut.
 - **`localhost:5672`** menentukan *host* dan *port*. Ini berarti server RabbitMQ sedang berjalan di mesin lokal komputer 
 (`localhost`) dan listening koneksi AMQP yang masuk pada *port* bawaannya yaitu `5672`.
+
+
+## Simulation Slow Subscriber
+
+![Slow Subscriber Queue](img_1.png)
+
+**Mengapa total antrean (Queued messages) bisa memuncak?**
+Total antrean melonjak tajam (misalnya mencapai 20 atau lebih) karena kita menyimulasikan *slow subscriber* dengan menambahkan *delay* (`thread::sleep`) selama 1 detik untuk setiap pesan yang diproses. Sementara itu, *publisher* mengirimkan puluhan pesan secara instan. Karena kecepatan *publisher* mengirim data jauh melebihi kecepatan *subscriber* memproses data, *message broker* (RabbitMQ) menampung pesan-pesan tersebut di dalam antrean (Queue) sambil menunggu giliran untuk dikonsumsi oleh *subscriber*.
